@@ -1,0 +1,2 @@
+java -jar target\dropWizardSpike-1.0-SNAPSHOT.jar server config.yml
+java -Xdebug -agentlib:jdwp=transport=dt_socket,address=9999,server=y,suspend=n -jar target\dropWizardSpike-1.0-SNAPSHOT.jar server config.yml
