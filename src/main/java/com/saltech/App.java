@@ -2,8 +2,10 @@ package com.saltech;
 
 import com.saltech.resources.ContactResource;
 import io.dropwizard.Application;
+import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
+import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +31,10 @@ public class App extends Application<PhoneBookConfiguration> {
             System.out.println(phoneBookConfiguration.getMessage());
         }
 
-        environment.jersey().register(new ContactResource());
+        final DBIFactory factory = new DBIFactory();
+        final DBI jdbi = factory
+                .build(environment, phoneBookConfiguration.getDataSourceFactory(), "mysql");
+
+        environment.jersey().register(new ContactResource(jdbi));
     }
 }
