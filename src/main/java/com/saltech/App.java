@@ -1,7 +1,10 @@
 package com.saltech;
 
+import com.saltech.resources.ClientResource;
 import com.saltech.resources.ContactResource;
+import com.sun.jersey.api.client.Client;
 import io.dropwizard.Application;
+import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
@@ -33,6 +36,11 @@ public class App extends Application<PhoneBookConfiguration> {
             System.out.println(phoneBookConfiguration.getMessage());
         }
 
+        registerJDBIAndValidator(phoneBookConfiguration, environment);
+        registerJerseyClient(environment);
+    }
+
+    private void registerJDBIAndValidator(PhoneBookConfiguration phoneBookConfiguration, Environment environment) throws ClassNotFoundException {
         final DBIFactory factory = new DBIFactory();
         final DBI jdbi = factory
                 .build(environment, phoneBookConfiguration.getDataSourceFactory(), "mysql");
@@ -40,5 +48,10 @@ public class App extends Application<PhoneBookConfiguration> {
         Validator validator = environment.getValidator();
 
         environment.jersey().register(new ContactResource(jdbi, validator));
+    }
+
+    private void registerJerseyClient(Environment environment) {
+        final Client client = new JerseyClientBuilder(environment).build("REST Client");
+        environment.jersey().register(new ClientResource(client));
     }
 }
