@@ -1,10 +1,22 @@
 package com.saltech.representations;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
 public class Contact {
 
     private final int id;
+
+    @NotBlank
+    @Length(min = 2, max = 255)
     private final String firstName;
+
+    @NotBlank
+    @Length(min = 2, max = 255)
     private final String lastName;
+
+    @NotBlank
+    @Length(min = 2, max = 30)
     private final String phone;
 
     public Contact() {

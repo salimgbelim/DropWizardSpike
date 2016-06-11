@@ -9,6 +9,8 @@ import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.validation.Validator;
+
 public class App extends Application<PhoneBookConfiguration> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(App.class);
@@ -35,6 +37,8 @@ public class App extends Application<PhoneBookConfiguration> {
         final DBI jdbi = factory
                 .build(environment, phoneBookConfiguration.getDataSourceFactory(), "mysql");
 
-        environment.jersey().register(new ContactResource(jdbi));
+        Validator validator = environment.getValidator();
+
+        environment.jersey().register(new ContactResource(jdbi, validator));
     }
 }
