@@ -1,6 +1,7 @@
 package com.saltech.resources;
 
 import com.saltech.representations.Contact;
+import com.saltech.views.ContactView;
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
@@ -13,7 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/client/")
-@Produces(MediaType.TEXT_PLAIN)
+@Produces(MediaType.TEXT_HTML)
 public class ClientResource {
 
     private final Client client;
@@ -24,18 +25,13 @@ public class ClientResource {
 
     @GET
     @Path("showContact")
-    public String showContact(@QueryParam("id") int id) {
+    public ContactView showContact(@QueryParam("id") int id) {
 
         WebResource contactResource = client.resource("http://localhost:8080/contact/" + id);
 
         Contact contact = contactResource.get(Contact.class);
 
-        String output = "ID: " + id
-                + "\nFirst name: " + contact.getFirstName()
-                + "\nLast name: " + contact.getLastName()
-                + "\nPhone: " + contact.getPhone();
-
-        return output;
+        return new ContactView(contact);
     }
 
     @GET
