@@ -6,6 +6,7 @@ import io.dropwizard.db.DataSourceFactory;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 public class PhoneBookConfiguration extends Configuration {
 
@@ -28,6 +29,19 @@ public class PhoneBookConfiguration extends Configuration {
     @NotEmpty
     private String password;
 
+    @JsonProperty
+    @NotEmpty
+    private String mongohost = "localhost";
+
+    @JsonProperty
+    @Min(1)
+    @Max(65535)
+    private int mongoport = 27017;
+
+    @JsonProperty
+    @NotEmpty
+    public String mongodb = "blogs";
+
     public String getMessage() {
         return message;
     }
@@ -46,5 +60,13 @@ public class PhoneBookConfiguration extends Configuration {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getMongohost() {
+        return mongohost;
+    }
+
+    public int getMongoport() {
+        return mongoport;
     }
 }

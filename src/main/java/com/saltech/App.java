@@ -1,7 +1,11 @@
 package com.saltech;
 
+import com.mongodb.Mongo;
 import com.saltech.authentication.PhoneBookAuthenticator;
+import com.saltech.health.MongoHealthCheck;
 import com.saltech.health.NewContactHealthCheck;
+import com.saltech.managed.MongoManaged;
+import com.saltech.resources.BlogResource;
 import com.saltech.resources.ClientResource;
 import com.saltech.resources.ContactResource;
 import com.sun.jersey.api.client.Client;
@@ -52,13 +56,20 @@ public class App extends Application<PhoneBookConfiguration> {
         registerAuthentication(phoneBookConfiguration, environment);
         registerHealthChecks(client, environment);
 
+        Mongo mongo = new Mongo(phoneBookConfiguration.getMongohost(), phoneBookConfiguration.getMongoport());
+        MongoManaged mongoManaged = new MongoManaged(mongo);
+        environment.lifecycle().manage(mongoManaged);
+        environment.healthChecks().register("Mongo", new MongoHealthCheck(mongo));
+
+        environment.jersey().register(new BlogResource());
+
     }
 
     private void registerHealthChecks(Client client, Environment environment) {
 
         NewContactHealthCheck newContactHealthCheck = new NewContactHealthCheck(client);
 
-        environment.healthChecks().register("New Contact Health Check",newContactHealthCheck);
+        environment.healthChecks().register("New Contact Health Check", newContactHealthCheck);
     }
 
     private void registerAuthentication(PhoneBookConfiguration phoneBookConfiguration, Environment environment) {
