@@ -20,6 +20,14 @@ public class PhoneBookConfiguration extends Configuration {
     @JsonProperty
     private DataSourceFactory database = new DataSourceFactory();
 
+    @JsonProperty
+    @NotEmpty
+    private String userName;
+
+    @JsonProperty
+    @NotEmpty
+    private String password;
+
     public String getMessage() {
         return message;
     }
@@ -30,5 +38,13 @@ public class PhoneBookConfiguration extends Configuration {
 
     public DataSourceFactory getDataSourceFactory() {
         return database;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPassword() {
+        return password;
     }
 }

@@ -6,3 +6,6 @@ database:
   user: phonebookuser
   password: phonebookpassword
   url: jdbc:mysql://localhost/phonebook
+
+userName : salim_belim
+password : salim

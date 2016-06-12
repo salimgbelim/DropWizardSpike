@@ -40,14 +40,16 @@ public class App extends Application<PhoneBookConfiguration> {
         }
 
         registerJDBIAndValidator(phoneBookConfiguration, environment);
-        registerJerseyClient(environment);
-        registerAuthentication(environment);
+        registerJerseyClient(phoneBookConfiguration, environment);
+        registerAuthentication(phoneBookConfiguration, environment);
 
     }
 
-    private void registerAuthentication(Environment environment) {
+    private void registerAuthentication(PhoneBookConfiguration phoneBookConfiguration, Environment environment) {
 
-        BasicAuthProvider basicAuthProvider = new BasicAuthProvider<>(new PhoneBookAuthenticator(), "Web Service Realm");
+        PhoneBookAuthenticator phoneBookAuthenticator = new PhoneBookAuthenticator(phoneBookConfiguration.getUserName(), phoneBookConfiguration.getPassword());
+
+        BasicAuthProvider basicAuthProvider = new BasicAuthProvider<>(phoneBookAuthenticator, "Web Service Realm");
         environment.jersey().register(basicAuthProvider);
 
     }
@@ -62,12 +64,12 @@ public class App extends Application<PhoneBookConfiguration> {
         environment.jersey().register(new ContactResource(jdbi, validator));
     }
 
-    private void registerJerseyClient(Environment environment) {
-        
+    private void registerJerseyClient(PhoneBookConfiguration phoneBookConfiguration, Environment environment) {
+
         final Client client = new JerseyClientBuilder(environment)
                 .build("REST Client");
 
-        HTTPBasicAuthFilter httpBasicAuthFilter = new HTTPBasicAuthFilter("salim_belim", "password");
+        HTTPBasicAuthFilter httpBasicAuthFilter = new HTTPBasicAuthFilter(phoneBookConfiguration.getUserName(), phoneBookConfiguration.getPassword());
         client.addFilter(httpBasicAuthFilter);
 
         environment.jersey().register(new ClientResource(client));
