@@ -13,7 +13,9 @@
 				"db252223-fdf5-5595-d2c8-c6090da89429",
 				"aa888cf0-557c-afb3-5728-b0f8c3e25aa8",
 				"b7c0b709-c4b7-63cf-c1f3-456889683816",
-				"990cfadc-65bc-3550-b9fe-0660330dfffb"
+				"990cfadc-65bc-3550-b9fe-0660330dfffb",
+				"31286e9d-9007-76ac-1e3c-3da5ef5fba79",
+				"e7fd23e2-ba26-e830-fd41-4ced6cdb5f07"
 			],
 			"owner": 0,
 			"collectionId": "f01ea359-8e89-9ebe-bc3c-5c2580fc57d8"
@@ -32,7 +34,8 @@
 			"name": "Health Check",
 			"description": "",
 			"order": [
-				"c803783b-b74a-bd54-24e4-98f928e52b75"
+				"c803783b-b74a-bd54-24e4-98f928e52b75",
+				"ce11c6f4-4c21-abfe-139b-0e44268a4e6b"
 			],
 			"owner": 0
 		}
@@ -60,6 +63,27 @@
 			"description": "",
 			"collectionId": "f01ea359-8e89-9ebe-bc3c-5c2580fc57d8",
 			"responses": []
+		},
+		{
+			"id": "31286e9d-9007-76ac-1e3c-3da5ef5fba79",
+			"headers": "Authorization: Basic c2FsaW1fYmVsaW06cGFzc3dvcmQ=\n",
+			"url": "http://localhost:8181/blog",
+			"pathVariables": {},
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "f01ea359-8e89-9ebe-bc3c-5c2580fc57d8",
+			"data": null,
+			"dataMode": "params",
+			"name": "Get Blogs",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1465746358164,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"folder": "310b39ef-3f6c-139d-be96-7de5338a6b4c"
 		},
 		{
 			"id": "35b7736a-7395-1e57-fe1c-0d8bb396835b",
@@ -153,10 +177,31 @@
 			"currentHelper": "normal",
 			"helperAttributes": {},
 			"time": 1465742498164,
-			"name": "New Contact HealthCheck",
+			"name": "HealthCheck",
 			"description": "",
 			"collectionId": "f01ea359-8e89-9ebe-bc3c-5c2580fc57d8",
 			"responses": []
+		},
+		{
+			"id": "ce11c6f4-4c21-abfe-139b-0e44268a4e6b",
+			"headers": "",
+			"url": "http://localhost:8282/metrics/",
+			"pathVariables": {},
+			"preRequestScript": null,
+			"method": "GET",
+			"collectionId": "f01ea359-8e89-9ebe-bc3c-5c2580fc57d8",
+			"data": null,
+			"dataMode": "params",
+			"name": "Metrics",
+			"description": "",
+			"descriptionFormat": "html",
+			"time": 1465746439336,
+			"version": 2,
+			"responses": [],
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"folder": "574dac2c-c2cf-ea67-aa5c-b39684259433"
 		},
 		{
 			"id": "db252223-fdf5-5595-d2c8-c6090da89429",
@@ -177,6 +222,26 @@
 			"collectionId": "f01ea359-8e89-9ebe-bc3c-5c2580fc57d8",
 			"responses": [],
 			"rawModeData": "{\n    \"firstName\" : \"salim\",\n    \"lastName\" : \"belim\",\n    \"phone\" : \"+447967482619\"\n}"
+		},
+		{
+			"id": "e7fd23e2-ba26-e830-fd41-4ced6cdb5f07",
+			"headers": "Content-Type: application/json\n",
+			"url": "http://localhost:8181/blog",
+			"preRequestScript": null,
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": null,
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1465762866905,
+			"name": "POST Blog",
+			"description": "",
+			"collectionId": "f01ea359-8e89-9ebe-bc3c-5c2580fc57d8",
+			"responses": [],
+			"rawModeData": "{\n    \"title\":\"Day 12: OpenCV--Face Detection for Java Developers\",\n    \"url\":\"https://www.openshift.com/blogs/day-12-opencv-face-detection-for-java-developers\"\n}"
 		}
 	]
 }
