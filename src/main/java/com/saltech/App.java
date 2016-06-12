@@ -1,9 +1,12 @@
 package com.saltech;
 
+import com.saltech.authentication.PhoneBookAuthenticator;
 import com.saltech.resources.ClientResource;
 import com.saltech.resources.ContactResource;
 import com.sun.jersey.api.client.Client;
+import com.sun.jersey.api.client.filter.HTTPBasicAuthFilter;
 import io.dropwizard.Application;
+import io.dropwizard.auth.basic.BasicAuthProvider;
 import io.dropwizard.client.JerseyClientBuilder;
 import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
@@ -38,6 +41,15 @@ public class App extends Application<PhoneBookConfiguration> {
 
         registerJDBIAndValidator(phoneBookConfiguration, environment);
         registerJerseyClient(environment);
+        registerAuthentication(environment);
+
+    }
+
+    private void registerAuthentication(Environment environment) {
+
+        BasicAuthProvider basicAuthProvider = new BasicAuthProvider<>(new PhoneBookAuthenticator(), "Web Service Realm");
+        environment.jersey().register(basicAuthProvider);
+
     }
 
     private void registerJDBIAndValidator(PhoneBookConfiguration phoneBookConfiguration, Environment environment) throws ClassNotFoundException {
@@ -51,7 +63,13 @@ public class App extends Application<PhoneBookConfiguration> {
     }
 
     private void registerJerseyClient(Environment environment) {
-        final Client client = new JerseyClientBuilder(environment).build("REST Client");
+        
+        final Client client = new JerseyClientBuilder(environment)
+                .build("REST Client");
+
+        HTTPBasicAuthFilter httpBasicAuthFilter = new HTTPBasicAuthFilter("salim_belim", "password");
+        client.addFilter(httpBasicAuthFilter);
+
         environment.jersey().register(new ClientResource(client));
     }
 }

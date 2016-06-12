@@ -2,7 +2,9 @@ package com.saltech.resources;
 
 import com.saltech.dao.ContactDAO;
 import com.saltech.representations.Contact;
+import io.dropwizard.auth.Auth;
 import org.skife.jdbi.v2.DBI;
+import org.skife.jdbi.v2.util.BooleanMapper;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Valid;
@@ -30,7 +32,7 @@ public class ContactResource {
 
     @GET
     @Path("/{id}")
-    public Response getContact(@PathParam("id") int id) {
+    public Response getContact(@PathParam("id") int id, @Auth Boolean isAuthenticated) {
 
         Contact contact = contactDAO.getContactById(id);
 
@@ -40,7 +42,7 @@ public class ContactResource {
     }
 
     @POST
-    public Response createContact(Contact contact) throws URISyntaxException {
+    public Response createContact(Contact contact, @Auth Boolean isAuthenticated) throws URISyntaxException {
 
         Set<ConstraintViolation<Contact>> violations = validator.validate(contact);
 
@@ -71,7 +73,7 @@ public class ContactResource {
 
     @DELETE
     @Path("/{id}")
-    public Response deleteContact(@PathParam("id") int id) {
+    public Response deleteContact(@PathParam("id") int id, @Auth Boolean isAuthenticated) {
 
         contactDAO.deleteContact(id);
 
@@ -84,7 +86,7 @@ public class ContactResource {
     @PUT
     @Path("/{id}")
     public Response updateContact(@PathParam("id") int id,
-                                  @Valid Contact contact) {
+                                  @Valid Contact contact, @Auth Boolean isAuthenticated) {
 
         contactDAO.updateContact(id, contact.getFirstName(), contact.getLastName(), contact.getPhone());
 
