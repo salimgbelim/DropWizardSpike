@@ -1,6 +1,7 @@
 package com.saltech;
 
 import com.saltech.authentication.PhoneBookAuthenticator;
+import com.saltech.health.NewContactHealthCheck;
 import com.saltech.resources.ClientResource;
 import com.saltech.resources.ContactResource;
 import com.sun.jersey.api.client.Client;
@@ -43,10 +44,21 @@ public class App extends Application<PhoneBookConfiguration> {
             System.out.println(phoneBookConfiguration.getMessage());
         }
 
-        registerJDBIAndValidator(phoneBookConfiguration, environment);
-        registerJerseyClient(phoneBookConfiguration, environment);
-        registerAuthentication(phoneBookConfiguration, environment);
+        final Client client = new JerseyClientBuilder(environment)
+                .build("REST Client");
 
+        registerJDBIAndValidator(phoneBookConfiguration, environment);
+        registerJerseyClient(client, phoneBookConfiguration, environment);
+        registerAuthentication(phoneBookConfiguration, environment);
+        registerHealthChecks(client, environment);
+
+    }
+
+    private void registerHealthChecks(Client client, Environment environment) {
+
+        NewContactHealthCheck newContactHealthCheck = new NewContactHealthCheck(client);
+
+        environment.healthChecks().register("New Contact Health Check",newContactHealthCheck);
     }
 
     private void registerAuthentication(PhoneBookConfiguration phoneBookConfiguration, Environment environment) {
@@ -68,10 +80,7 @@ public class App extends Application<PhoneBookConfiguration> {
         environment.jersey().register(new ContactResource(jdbi, validator));
     }
 
-    private void registerJerseyClient(PhoneBookConfiguration phoneBookConfiguration, Environment environment) {
-
-        final Client client = new JerseyClientBuilder(environment)
-                .build("REST Client");
+    private void registerJerseyClient(Client client, PhoneBookConfiguration phoneBookConfiguration, Environment environment) {
 
         HTTPBasicAuthFilter httpBasicAuthFilter = new HTTPBasicAuthFilter(phoneBookConfiguration.getUserName(), phoneBookConfiguration.getPassword());
         client.addFilter(httpBasicAuthFilter);

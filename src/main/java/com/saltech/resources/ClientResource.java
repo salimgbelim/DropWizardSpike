@@ -27,7 +27,7 @@ public class ClientResource {
     @Path("showContact")
     public ContactView showContact(@QueryParam("id") int id) {
 
-        WebResource contactResource = client.resource("http://localhost:8080/contact/" + id);
+        WebResource contactResource = client.resource("http://localhost:8181/contact/" + id);
 
         Contact contact = contactResource.get(Contact.class);
 
@@ -38,7 +38,7 @@ public class ClientResource {
     @Path("newContact")
     public Response newContact(@QueryParam("firstName") String firstName, @QueryParam("lastName") String lastName, @QueryParam("phone") String phone) {
 
-        WebResource contactResource = client.resource("http://localhost:8080/contact");
+        WebResource contactResource = client.resource("http://localhost:8181/contact");
 
         ClientResponse response = contactResource
                 .type(MediaType.APPLICATION_JSON_TYPE)
@@ -58,7 +58,7 @@ public class ClientResource {
     @Path("updateContact")
     public Response updateContact(@QueryParam("id") int id, @QueryParam("firstName") String firstName, @QueryParam("lastName") String lastName, @QueryParam("phone") String phone) {
 
-        WebResource contactResource = client.resource("http://localhost:8080/contact/" + id);
+        WebResource contactResource = client.resource("http://localhost:8181/contact/" + id);
 
         ClientResponse response = contactResource
                 .type(MediaType.APPLICATION_JSON)
@@ -75,7 +75,7 @@ public class ClientResource {
     @Path("deleteContact")
     public Response deleteContact(@QueryParam("id") int id) {
 
-        WebResource contactResource = client.resource("http://localhost:8080/contact/" + id);
+        WebResource contactResource = client.resource("http://localhost:8181/contact/" + id);
 
         contactResource.delete();
 

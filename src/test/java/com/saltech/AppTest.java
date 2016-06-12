@@ -41,7 +41,7 @@ public class AppTest
     @Test
     public void createAndRetrieveContact(){
 
-        WebResource contactResource = client.resource("http://localhost:8080/contact");
+        WebResource contactResource = client.resource("http://localhost:8181/contact");
         ClientResponse response = contactResource
                 .type(MediaType.APPLICATION_JSON)
                 .post(ClientResponse.class, contactForTest);

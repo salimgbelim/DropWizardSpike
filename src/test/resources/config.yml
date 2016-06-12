@@ -9,3 +9,13 @@ database:
 
 userName : salim_belim
 password : salim
+
+server:
+    applicationConnectors:
+        - type: http
+          # The port the application will listen on
+          port: 8181
+    adminConnectors:
+        - type: http
+          # The admin port
+          port: 8282

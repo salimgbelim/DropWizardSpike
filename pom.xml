@@ -132,6 +132,8 @@
                                                      ="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>com.saltech.App</mainClass>
                                 </transformer>
+                                <transformer implementation = "org.apache.maven.plugins.shade.resource.ServicesResourceTransformer">
+                                </transformer>
                             </transformers>
                         </configuration>
                     </execution>
