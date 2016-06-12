@@ -10,6 +10,10 @@ database:
 userName : salim_belim
 password : salim
 
+mongohost: localhost
+mongoport : 27017
+mongodb : blogs
+
 server:
     applicationConnectors:
         - type: http

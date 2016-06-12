@@ -31,16 +31,16 @@ public class PhoneBookConfiguration extends Configuration {
 
     @JsonProperty
     @NotEmpty
-    private String mongohost = "localhost";
+    private String mongohost;
 
     @JsonProperty
     @Min(1)
     @Max(65535)
-    private int mongoport = 27017;
+    private int mongoport;
 
     @JsonProperty
     @NotEmpty
-    public String mongodb = "blogs";
+    private String mongodb;
 
     public String getMessage() {
         return message;
@@ -68,5 +68,9 @@ public class PhoneBookConfiguration extends Configuration {
 
     public int getMongoport() {
         return mongoport;
+    }
+
+    public String getMongodb() {
+        return mongodb;
     }
 }
