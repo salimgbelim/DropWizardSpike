@@ -1,10 +1,12 @@
 package com.saltech;
 
+import com.mongodb.DB;
 import com.mongodb.Mongo;
 import com.saltech.authentication.PhoneBookAuthenticator;
 import com.saltech.health.MongoHealthCheck;
 import com.saltech.health.NewContactHealthCheck;
 import com.saltech.managed.MongoManaged;
+import com.saltech.representations.Blog;
 import com.saltech.resources.BlogResource;
 import com.saltech.resources.ClientResource;
 import com.saltech.resources.ContactResource;
@@ -18,6 +20,7 @@ import io.dropwizard.jdbi.DBIFactory;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import io.dropwizard.views.ViewBundle;
+import net.vz.mongodb.jackson.JacksonDBCollection;
 import org.skife.jdbi.v2.DBI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,7 +64,13 @@ public class App extends Application<PhoneBookConfiguration> {
         environment.lifecycle().manage(mongoManaged);
         environment.healthChecks().register("Mongo", new MongoHealthCheck(mongo));
 
-        environment.jersey().register(new BlogResource());
+        DB db = mongo.getDB(phoneBookConfiguration.getMongodb());
+        JacksonDBCollection<Blog, String> blogs = JacksonDBCollection.wrap(
+                db.getCollection("blog"),
+                Blog.class,
+                String.class);
+
+        environment.jersey().register(new BlogResource(blogs));
 
     }
 

@@ -1,5 +1,6 @@
 package com.saltech.representations;
 
+import net.vz.mongodb.jackson.Id;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.URL;
 
@@ -9,7 +10,13 @@ import java.util.UUID;
 public class Blog {
 
     private final Date publishedOn = new Date();
+
+
     private String id = UUID.randomUUID().toString();
+
+    @Id
+    private String _id;
+
     @NotBlank
     private String title;
     @URL
